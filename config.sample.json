@@ -1,0 +1,52 @@
+﻿{
+  "botinfo": {
+    "botEmail": "bot.user@email.com",
+    "certificatePath": "./certificates",
+    "certificateFilePath": "bot.crt.pem",
+    "certificateKeyfilePath": "bot.key.pem",
+    "certificatePassword": "b0tP4sswGd"
+  },
+  "symphonyinfo": {
+    "pod_hostname": "",
+    "sessionTokenHost": "",
+    "sessionTokenPort": "8444",
+    "sessionEndpoint": "${host}:${port}/sessionauth/v1/authenticate",
+    "keyManagerHost": "",
+    "keyManagerPort": "8444",
+    "keyManagerEndpoint": "${host}:${port}/keyauth/v1/authenticate",
+    "apiHost": "",
+    "apiPort": "443"
+  },
+  "symphonyEndpoints": {
+    "createIM": "${host}:${port}/pod/v1/im/create",
+    "sendMessage": "${host}:${port}/agent/${ver}/stream/${streamId}/message/create"
+  },
+  "zendeskinfo": {
+    "zdesk_url": ""
+  },
+  "redis": {
+    "active": true,
+    "host": "127.0.0.1",
+    "port": 6379,
+    "password": "redispwd"
+  },
+  "loggingPath": "./logging",
+  "defaultCommandSettings": [
+    {
+      "name": "alphavantage",
+      "apikey": "apikey"
+    },
+    {
+      "name": "giphy",
+      "apikey": "apikey"
+    }
+  ],
+  "pluginPath": "./modules/plugins",
+  "blacklist": [
+    "no-reply@symphony.com",
+    "no-reply@salesforce.com",
+    "bot.user@email.com"
+  ],
+  "defaultCommandDefinitionPath": "./modules/command/default.json",
+  "BotStreamForPing": ""
+}

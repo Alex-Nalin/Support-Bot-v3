@@ -1,0 +1,231 @@
+{
+  "commands": [
+    {
+      "name": "botStream",
+      "triggers": ["botStream", "botstream"],
+      "function": "botStream",
+      "helptext": "<b>/botStream</b>",
+      "description": "This will return all the chat that users have with the Bot, this could be of any type (IM/MIM and ROOMs)",
+      "param":"IM or ROOM or ALL",
+      "example":"/botStream im or /botStream all",
+      "category": "General Bot command",
+      "permission": "Bot Admin"
+    },
+    {
+      "name": "botMessageBlast",
+      "triggers": ["botMessageBlast", "botmessageblast", "botMessage", "botmessage"],
+      "function": "botMessageBlast",
+      "helptext": "<b>/botMessageBlast</b>",
+      "description": "Sends a message to all IM/MIM or ROOMs or even all Types with a specific message",
+      "param":"IM or ROOM or ALL + message",
+      "example":"/botMessageBlast IM The bot has been updated",
+      "category": "General Bot command",
+      "permission": "Bot Admin"
+    },
+    {
+      "name": "shutdownBot",
+      "triggers": ["shutdownBot", "shutdownbot","shutdown", "exit", "stopBot", "stopbot"],
+      "function": "shutdownBot",
+      "helptext": "<b>/shutdownBot</b>",
+      "description": "An Admin can shutdown the bot. Be awate that a manual restart is required.",
+      "param":"IM or ROOM or ALL + message",
+      "example":"/shutdownBot  or /shutdownBot IM The bot will be temporatey unavailable, sorry for any incoveniance.",
+      "category": "General Bot command",
+      "permission": "Bot Admin"
+    },
+    {
+      "name": "addAcronym",
+      "triggers": ["addAcronym", "addacronym", "newAcronym", "newacronym"],
+      "function": "addAcronym",
+      "helptext": "<b>/addAcronym</b>",
+      "description": "Add acronym to the dictionary",
+      "param":"acronym",
+      "example":"/addAcronym VIP - Very Important Person",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Zendesk Agent"
+    },
+    {
+      "name": "removeAcronym",
+      "triggers": ["removeAcronym","removeacronym", "remAcronym", "remacronym", "delAcronym", "delacronym", "DeleteAcronym"],
+      "function": "removeAcronym",
+      "helptext": "<b>/removeAcronym</b>",
+      "description": "Removes the acronym from the dictionary",
+      "param":"acronym",
+      "example":"/removeAcronym VIP",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Zendesk Agent"
+    },
+    {
+      "name": "findAcronym",
+      "triggers": ["findAcronym","findacronym", "FindAcronym", "Findacronym", "Acronym", "acronym", "meaning", "Meaning", "define", "Define"],
+      "function": "findAcronym",
+      "helptext": "<b>/findAcronym</b>",
+      "description": "Finds existing acronym",
+      "param":"acronym",
+      "example":"/findAcronym VIP",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Zendesk Agent"
+    },
+    {
+      "name": "listAllAcronyms",
+      "triggers": ["listAllAcronyms", "listallacronyms", "listAcronyms", "listacronyms", "AllAcronyms", "allAcronyms", "allacronyms"],
+      "function": "listAllAcronyms",
+      "helptext": "<b>/listAllAcronyms</b>",
+      "description": "List all the existing acronym",
+      "param":"None",
+      "example":"/listAllAcronyms",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Zendesk Agent"
+    },
+    {
+      "name": "status",
+      "triggers": ["status", "poke", "check", "test", "ping"],
+      "function": "SendStatusCheck",
+      "helptext": "<b>/status</b>",
+      "description": "Returns the status of SymphonyZendeskBot. This command bypasses the Command Queue.",
+      "param":"",
+      "example":"",
+      "category": "General Bot command",
+      "Permission": "Anyone",
+      "immediate": true
+    },
+    {
+      "name": "echo",
+      "triggers": ["echo"],
+      "function": "SendSymphonyEchoV2",
+      "helptext": "<b>/echo</b>",
+      "description": "Repeats whatever chat data is sent to the bot. Useful for testing the bot connection.",
+      "param":"[Text]",
+      "example":"/echo hello world",
+      "category": "General Bot command",
+      "Permission": "Anyone",
+      "immediate": true
+    },
+    {
+      "name": "translate",
+      "triggers": ["trans", "translate"],
+      "function": "GetGoogleTranslation",
+      "helptext": "<b>/translate</b>",
+      "description": "Uses Google Translate to translate the search word or phrase.",
+      "param":"Text",
+      "example":"/translate bonjour",
+      "category": "General Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "quote",
+      "triggers": ["quote", "$", "qt"],
+      "function": "GetAlphaVantageStockQuote",
+      "helptext": "<b>/quote</b>",
+      "description": "Pulls the most recent open and close prices for the specified ticker symbol from Alpha Vantage.",
+      "param":"tickerSymbol",
+      "example":"/quote $appl",
+      "category": "General Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "gif",
+      "triggers": ["gif", "giphy" ],
+      "function": "GetGiphyImage",
+      "helptext": "<b>/gif</b>",
+      "description": "Searches and brings a funny gif from Giphy. If search text is blank this command will return a random GIF. (using Card)",
+      "param":"Text (optional)",
+      "example":"/gif Symphony",
+      "category": "General Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "weather",
+      "triggers": ["weather", "forecast", "cast"],
+      "function": "weather",
+      "helptext": "<b>/weather</b>",
+      "description": "Gives the weather forecast for the given location from 1 to 7 days.",
+      "param":"location + dys to forecast",
+      "example":"/weather london or /weather london 5",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "Quote of the Day",
+      "triggers": ["qod", "QoD", "QOD"],
+      "function": "QoD",
+      "helptext": "<b>/qod</b>",
+      "description": "Retrieves a Quote of the Day to ponder on. /qod .",
+      "param":"None",
+      "example":"/qod",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "Fun Quote",
+      "triggers": ["funQuote", "funquote", "fun"],
+      "function": "funQuote",
+      "helptext": "<b>/funQuote</b>",
+      "description": "Displays quotes from famous movies and person.",
+      "param":"None",
+      "example":"/funQuote",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "Joke",
+      "triggers": ["Joke", "joke", "jokes"],
+      "function": "joke",
+      "helptext": "<b>/joke</b>",
+      "description": "Displays random joke",
+      "param":"None",
+      "example":"/joke",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "Wikipedia Search",
+      "triggers": ["wikiSearch","wikisearch", "wiki"],
+      "function": "wikiSearch",
+      "helptext": "<b>/wikiSearch</b>",
+      "description": "Finds top 3 results from Wikipedia",
+      "param":"Search Term",
+      "example":"/wikiSearch Symphony Communication",
+      "category": "Miscellaneous Bot command",
+      "Permission": "Anyone"
+    },
+    {
+      "name": "help",
+      "triggers": ["help", "Help", "HELP"],
+      "function": "SymphonyZendeskBotHelp",
+      "helptext": "<b>/help</b>",
+      "description": "Tells you what the bot can do.",
+      "param":"more (optional)",
+      "example":"/help or /help more",
+      "category": "General Bot command",
+      "Permission": "Anyone"
+    }
+  ],
+  "hashcommands": [
+  ],
+  "weather":
+  {
+    "API_Key":""
+  },
+   "x-mashape":
+  {
+    "URL": "",
+    "API_Key":""
+  },
+  "Jokes":
+  {
+    "URL": "",
+    "user-agent": ""
+  },
+  "convertTime":
+  {
+    "URL": "",
+    "api_key": ""
+  },
+  "Wiki":
+  {
+    "API_Key": "",
+    "token": "",
+    "replace" : ""
+  }
+}

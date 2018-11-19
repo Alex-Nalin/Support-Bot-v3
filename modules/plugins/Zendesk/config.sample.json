@@ -1,0 +1,164 @@
+{
+  "commands": [
+    {
+      "triggers": ["search"],
+      "function": "searchZD",
+      "description": "This function allows you to search Zendesk. <b>/search companyName</b> for all raised issues or use following filters before companyName. .",
+      "helptext": "<b>/search</b> [o/n/p/s/c/u](filter optional) [companyName]",
+      "param":"open or o, new or n, pending or p, solved or s and closed or c or, unresolved or u + company name",
+      "example":"/search open symphony or /search o symphony",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+     },
+    {
+      "triggers": ["createTicket", "createticket", "ticketCreate", "ticketcreate" ,"newticket", "newTicket"],
+      "function": "TicketCreate",
+      "description": "Create a Zendesk ticket as an Zendesk Agent with a subject and description (must be seperated by comma (,) in between each)",
+      "helptext": "<b>/createTicket</b> [subject],[description]",
+      "param":"Subject, Description",
+      "example":"/createTicket This is the subject of the ticket, This is the description of the ticket",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["createRequest", "createrequest", "newZD", "newzd", "requestCreate", "newrequest", "newRequest", "requestcreate"],
+      "function": "RequestCreate",
+      "description": "Create a Zendesk Request as a Zendesk end-user by @mentioning the requester name, give a subject and description (must be seperated by comma (,) in between each)",
+      "helptext": "<b>/createRequest</b> [@mention],[subject],[description]",
+      "param":" @mention, subject, description",
+      "example":"/createRequest @alex nalin,This is the subject of the ticket, This is the description of the ticket",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["recentZD", "recent"],
+      "function": "recentZD",
+      "description": "List recent Zendesk tickets created or viewed by the Zendesk agents",
+      "helptext": "<b>/recentZD</b>",
+      "param":"None",
+      "example":"/recentZD",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["userZD", "user", "searchUser", "searchuser"],
+      "function": "userZD",
+      "description": "Search users in Zendesk and provide their email address, Zendesk Organisation they belong as well as their Zendesk role",
+      "helptext": "<b>/userZD</b> [user name], [company name]optional. Example: \"/userZD alex\" or \"/userZD , symphony",
+      "param":"user name, company name (optional) or user name (optional), company name",
+      "example":"/userZD alex\" or \"/userZD , symphony",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["showZD", "show", "zd", "ZD"],
+      "function": "showZD",
+      "description": "Shows Zendesk Ticket or tickets",
+      "helptext": "<b>/show</b> [ticket id][ticket id](optional)",
+      "param":"ticketid ticketid (optional)",
+      "example":"/showZD 222 or /showZD 222 425 342",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["tickettoday", "ticketToday", "today", "ZDToday"],
+      "function": "newTicketToday",
+      "description": "Shows all tickets raised today (1) or any other given day",
+      "helptext": "<b>/today</b> [1-10]",
+      "param":"1-10",
+      "example":"/today 1 or /today 3",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["ticketupdate", "ticketUpdate", "update", "Update", "updateTicket", "updateticket"],
+      "function": "ticketUpdate",
+      "description": "Add a comment to an existing Zendesk ticket as private or public and set its status",
+      "helptext": "<b>/ticketUpdate</b> [id], [comment], [status], [public/private].",
+      "param":"id, comment, status, public/private",
+      "example":"/ticketUpdate 222, This is an update this hide, private, open or /ticketUpdate 425, This comment will be visble to all, public, pending",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+    },
+    {
+      "triggers": ["createZendeskUser", "createUser", "ZDuser", "newUser", "newuser"],
+      "function": "createZendeskUser",
+      "description": "Create a new Zendesk end-user by @mentioning the Symphony User, the Pod name will be used to cross check existing Zendesk organization name",
+      "helptext": "<b>/createZendeskUser</b> @mention",
+      "param":"@mention",
+      "example":"/createZendeskUser @alex nalin",
+      "category": "Zendesk",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["addAccess", "addaccess"],
+      "function": "addAccess",
+      "description": "Add user or users to the authorised list to run Bot commands",
+      "helptext": "<b>/addAccess</b> [@mention user(s)]",
+      "param":"@mention user(s)",
+      "example":"/addAccess @alex nalin or /addAccess @alex nalin @franck berdat",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["removeAccess", "removeaccess", "remaccess", "remAccess"],
+      "function": "removeAccess",
+      "description": "Remove user from the authorised list to run Bot commands",
+      "helptext": "<b>/removeAccess</b> [@mention user(s)]",
+      "param":"@mention user(s)",
+      "example":"/removeAccess @alex nalin or /removeAccess @alex nalin @franck berdat",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["listAllAccess", "listallaccess" , "listAccess", "listaccess"],
+      "function": "listAllAccess",
+      "description": "List all the users authorised to run Bot commands",
+      "helptext": "<b>/listAllAccess</b>",
+       "param":"None",
+      "example":"/listAllAccess",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["autoConnect", "autoconnect", "autocConn", "autoconn"],
+      "function": "botAutoConnectionRequest",
+      "description": "Set if the bot should send connection request to users automatically or not. Connection Request is required to access email address",
+      "helptext": "<b>/autoConnect</b> enable/disable",
+      "param":"enable or disable",
+      "example":"/autoConect enable or /autoConnect disable",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["sendConnection", "sendconnection" , "connectionRequest", "connectionrequest", "sendconn"],
+      "function": "sendBotConnectionRequest",
+      "description": "Sends a connection request from the Bot to the @mentioned Symphony user",
+      "helptext": "<b>/sendConnection</b> @mention",
+      "param":"@mention",
+      "example":"/sendConnection @alex nalin",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["removeConnection", "removeconnection" , "remconnection", "remconn"],
+      "function": "removeBotConnectionRequest",
+      "description": "Removes a connection from Bot to the @mentioned Symphony user",
+      "helptext": "<b>/removeConnection</b> @mention",
+      "param":"@mention",
+      "example":"/removeConnection @alex nalin",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["listConnection", "listconnection", "listconn" , "botConnection", "botconnection", "botconn"],
+      "function": "listAllBotConnection",
+      "description": "Lists all the connections the Bot has with Symphony users",
+      "helptext": "<b>/botConnection</b>",
+      "param":"None",
+      "example":"/botConnection",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+requests
+requests-toolbelt
+lxml
+cryptography
+redis
+rq
+google-api-python-client
+python-dateutil
+pandas
+zdesk
+hurry.filesize

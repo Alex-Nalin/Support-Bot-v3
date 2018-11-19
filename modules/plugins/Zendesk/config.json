@@ -1,0 +1,204 @@
+{
+  "commands": [
+    {
+      "triggers": ["search"],
+      "function": "searchZD",
+      "description": "This function allows you to search Zendesk. <b>/search companyName</b> for all raised issues or use following filters before companyName. .",
+      "helptext": "<b>/search</b> [o/n/p/s/c/u](filter optional) [companyName]",
+      "param":"open or o, new or n, pending or p, solved or s and closed or c or, unresolved or u + company name",
+      "example":"/search open symphony or /search o symphony",
+      "category": "Zendesk",
+      "permission": "Authorised List"
+     },
+    {
+      "triggers": ["<b>/searchMyTickets</b>", "searchMyTickets" , "searchmytickets", "searchmyticket" , "myTicket", "myticket", "mytickets"],
+      "function": "searchMyTickets",
+      "description": "This function allows you to search Zendesk tickets raised given Zendesk user and filter by ticket status. <b>/searchMyTickets status @Mention_Symphony_User</b>",
+      "helptext": "<b>/searchMyTickets</b> open/new/pending/solved/closed/unresolved/all @Mention_Symphony_User",
+      "param":"open, new, pending, solved, closed, unresolved, all or the same but with an @mentioned user at the end.",
+      "example":"/searchMyTickets open or /searchMyTickets open @alex nalin",
+      "category": "Zendesk",
+      "permission": "All"
+     },
+    {
+      "triggers": ["<b>/showZD</b>", "showZD", "show", "zd", "ZD"],
+      "function": "showZD",
+      "description": "Shows Zendesk Ticket or tickets",
+      "helptext": "<b>/showZD</b> Zendesk_Ticket_ID Zendesk_Ticket_ID (optional)",
+      "param":"Zendesk_Ticket_ID Zendesk_Ticket_ID (optional)",
+      "example":"/showZD 222 or /showZD 222 425 342",
+      "category": "Zendesk",
+      "permission": "All"
+    },
+    {
+      "triggers": ["<b>/showTicketComments</b>", "showTicketComments", "showticketcomments", "showTicketComment", "showticketcomment", "showComments", "showComment", "showcomments", "showcomment", "ticketComment", "comments", "comment"],
+      "function": "showTicketComments",
+      "description": "Shows Zendesk Ticket comments",
+      "helptext": "<b>/showTicketComments</b> Zendesk_Ticket_ID",
+      "param":"Zendesk_Ticket_ID",
+      "example":"/showTicketComments 222",
+      "category": "Zendesk",
+      "permission": "All"
+    },
+    {
+      "triggers": ["<b>/createTicket</b>", "createTicket", "createticket", "ticketCreate", "ticketcreate" ,"newticket", "newTicket"],
+      "function": "TicketCreate",
+      "description": "Create a Zendesk ticket as an Zendesk Agent with a subject and description (must be separated by | in between each)",
+      "helptext": "<b>/createTicket</b> subject| description",
+      "param":"Subject| Description",
+      "example":"/createTicket This is the subject of the ticket| This is the description of the ticket",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent"
+    },
+    {
+      "triggers": ["<b>/createRequest</b>", "createRequest", "createrequest", "newZD", "newzd", "requestCreate", "newrequest", "newRequest", "requestcreate"],
+      "function": "RequestCreate",
+      "description": " 1) Create a Zendesk Request as a Zendesk agent by @mentioning the requester name, give a subject and description. <br></br>2) Create a Zendesk Request as an Zendesk End-user by just giving the a subject and description. (must be separated by comma | in between each)",
+      "helptext": "<b>/createRequest</b> @Mention_Symphony_User| subject| description <br></br><b>/createRequest</b> subject| description",
+      "param":" @Mention_Symphony_User| subject| description",
+      "example":"/createRequest @alex nalin| This is the subject of the ticket| This is the description of the ticket. <br></br> /createRequest This is the subject of the ticket| This is the description of the ticket.",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent/Zendesk End-user"
+    },
+    {
+      "triggers": ["<b>/recentZD</b>", "recentZD", "recent"],
+      "function": "recentZD",
+      "description": "List recent Zendesk tickets viewed by the calling Zendesk agent",
+      "helptext": "<b>/recentZD</b>",
+      "param":"None",
+      "example":"/recentZD",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent"
+    },
+    {
+      "triggers": ["<b>/userZD</b>", "userZD", "user", "searchUser", "searchuser"],
+      "function": "userZD",
+      "description": "Search users in Zendesk and provide their email address, Zendesk Organisation they belong as well as their Zendesk role",
+      "helptext": "<b>/userZD</b> user_firstname/user_lastname/user_fullname| company name (optional)",
+      "param":"user_firstname/user_lastname/user_fullname| company_name (optional) or user_name (optional)| company name",
+      "example":"/userZD alex or /userZD | symphony",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent"
+    },
+    {
+      "triggers": ["<b>/today</b>", "tickettoday", "ticketToday", "today", "ZDToday"],
+      "function": "newTicketToday",
+      "description": "Shows all tickets raised today (1) or from any other given day up to 7 days ago",
+      "helptext": "<b>/today</b> 1-7",
+      "param":"1-10",
+      "example":"/today 1 or /today 3",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent"
+    },
+    {
+      "triggers": ["<b>/ticketUpdate</b>", "ticketupdate", "ticketUpdate", "update", "Update", "updateTicket", "updateticket"],
+      "function": "ticketUpdate",
+      "description": "1) As an <b>Zendesk Agent</b>, add a comment/update to an existing Zendesk ticket as private or public and set its status <br></br>2) As a <b>Zendesk End-user</b>, add a comment/update to an existing Zendesk ticket as public",
+      "helptext": "1) <b>/ticketUpdate</b> Zendesk_Ticket_ID| comment| status| public/private  <br></br>2) <b>/ticketUpdate</b> Zendesk_Ticket_ID| comment",
+      "param":"Zendesk_Ticket_ID| comment| status| public/private",
+      "example":"1) /ticketUpdate 222| This is a hidden update| open| private <br></br> 2)/ticketUpdate 222| This comment will be visible to all| public",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent/Zendesk End-user"
+    },
+    {
+      "triggers": ["<b>/assignTicket</b>", "assignTicket", "assignticket", "Assign", "assign"],
+      "function": "assignTicket",
+      "description": "Assign as assignee the Symphony @mentioned user who is also a Zendesk Agent. This will leave an internal comment about the assignment",
+      "helptext": "<b>/assignTicket</b> Zendesk_Ticket_ID @Mention_Symphony_User",
+      "param":"Zendesk_Ticket_ID @Mention_Symphony_User",
+      "example":"/assignTicket 400 @alex nalin",
+      "category": "Zendesk",
+      "permission": "Zendesk Agent"
+    },
+    {
+      "triggers": ["<b>/createZendeskUser</b>", "createZendeskUser", "createzendeskuser", "createUser", "ZDuser", "newUser", "newuser"],
+      "function": "createZendeskUser",
+      "description": "Create a new Zendesk end-user by @mentioning the Symphony User, the Pod name will be used to cross check existing Zendesk organization name",
+      "helptext": "<b>/createZendeskUser</b> @Mention_Symphony_User",
+      "param":"@Mention_Symphony_User",
+      "example":"/createZendeskUser @alex nalin",
+      "category": "Zendesk",
+      "permission": "Bot Admin"
+    },
+    {
+      "triggers": ["<b>/addAccess</b>", "addAccess", "addaccess"],
+      "function": "addAccess",
+      "description": "Add user or users to the authorised list to run Bot commands",
+      "helptext": "<b>/addAccess</b> @Mention_Symphony_User(s)",
+      "param":"@Mention_Symphony_User(s)",
+      "example":"/addAccess @alex nalin or /addAccess @alex nalin @franck berdat",
+      "category": "Zendesk/General",
+      "permission": "Bot Admin"
+    },
+    {
+      "triggers": ["<b>/removeAccess</b>", "removeAccess", "removeaccess", "remaccess", "remAccess"],
+      "function": "removeAccess",
+      "description": "Remove user from the authorised list to run Bot commands",
+      "helptext": "<b>/removeAccess</b> @Mention_Symphony_User(s)",
+      "param":"@Mention_Symphony_User(s)",
+      "example":"/removeAccess @alex nalin or /removeAccess @alex nalin @franck berdat",
+      "category": "Zendesk/General",
+      "permission": "Bot Admin"
+    },
+    {
+      "triggers": ["<b>/listAllAccess</b>", "listAllAccess", "listallaccess" , "listAccess", "listaccess"],
+      "function": "listAllAccess",
+      "description": "List all the users authorised to run Bot commands",
+      "helptext": "<b>/listAllAccess</b>",
+       "param":"None",
+      "example":"/listAllAccess",
+      "category": "Zendesk/General",
+      "permission": "BotAdmin"
+    },
+    {
+      "triggers": ["autoConnect", "autoconnect", "autocConn", "autoconn"],
+      "function": "botAutoConnectionRequest",
+      "description": "Set if the bot should send connection request to users automatically or not. Connection Request is required to access email address",
+      "helptext": "<b>/autoConnect</b> enable/disable",
+      "param":"enable or disable",
+      "example":"/autoConnect enable or /autoConnect disable",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["sendConnection", "sendconnection" , "connectionRequest", "connectionrequest", "sendconn"],
+      "function": "sendBotConnectionRequest",
+      "description": "Sends a connection request from the Bot to the @mentioned Symphony user",
+      "helptext": "<b>/sendConnection</b> @mention",
+      "param":"@mention",
+      "example":"/sendConnection @alex nalin",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["removeConnection", "removeconnection" , "remconnection", "remconn"],
+      "function": "removeBotConnectionRequest",
+      "description": "Removes a connection from Bot to the @mentioned Symphony user",
+      "helptext": "<b>/removeConnection</b> @mention",
+      "param":"@mention",
+      "example":"/removeConnection @alex nalin",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+      "triggers": ["listConnection", "listconnection", "listconn" , "botConnection", "botconnection", "botconn"],
+      "function": "listAllBotConnection",
+      "description": "Lists all the connections the Bot has with Symphony users",
+      "helptext": "<b>/botConnection</b>",
+      "param":"None",
+      "example":"/botConnection",
+      "category": "Zendesk/General",
+      "permission": "Admin"
+    },
+    {
+    "triggers": ["<b>/searchKB</b>", "searchkb", "KB", "kb"],
+    "function": "searchKB",
+    "description": "Will display any Knowledge Base article found with that search_term",
+    "helptext": "<b>/searchKB</b> search_term",
+    "param": "search_term",
+    "example": "/searchKB search_term",
+    "category": "Zendesk",
+    "permission": "All"
+    }
+  ]
+}

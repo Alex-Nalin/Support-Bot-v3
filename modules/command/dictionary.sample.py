@@ -1,0 +1,1 @@
+AcronymsDictionary = {'API': 'Application Program Interface'}
