@@ -31,6 +31,7 @@
     "password": "redispwd"
   },
   "loggingPath": "./logging",
+  "logToFile": true,
   "defaultCommandSettings": [
     {
       "name": "alphavantage",

@@ -327,10 +327,12 @@ def UIDCheck(messageDetail):
             UID_raw = messageDetail.Command.MessageText
             UID = str(UID_raw).replace(" ", "")
             UID_lenght = len(str(UID))
+
         except:
             return messageDetail.ReplyToChat("Please use enter UID of the Symphony user to lookup")
 
-        if str(UID_lenght) != "14":
+        #if str(UID_lenght) != "14":
+        if str(UID_lenght) != _configMain['UID']:
             return messageDetail.ReplyToChat("Please enter a valid UID, with 14 digits")
 
         connComp = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
@@ -374,9 +376,12 @@ def UIDCheck(messageDetail):
         for index_org in range(len(d_org["users"])):
             try:
                 firstName = d_org["users"][index_org]["firstName"]
+            except:
+                firstName = "N/A"
+            try:
                 lastName = d_org["users"][index_org]["lastName"]
             except:
-                return messageDetail.ReplyToChat("I am a Top Secret Agent Bot, I do no share my info :)")
+                lastName = "N/A"
             displayName = d_org["users"][index_org]["displayName"]
             try:
                 title = d_org["users"][index_org]["title"]
@@ -1123,232 +1128,261 @@ def ProdPod (messageDetail):
         return messageDetail.ReplyToChat("You aren't authorised to use this command. Please contact Alex Nalin for access")
 
 
-# def deactivateUser(messageDetail):
-#
-#     commandCallerUID = messageDetail.FromUserId
-#
-#     connComp = http.client.HTTPSConnection(_configDef['symphonyinfo']['pod_hostname'])
-#     sessionTok = callout.GetSessionToken()
-#
-#     headersCompany = {
-#         'sessiontoken': sessionTok,
-#         'cache-control': "no-cache"
-#     }
-#
-#     connComp.request("GET", "/pod/v3/users?uid=" + commandCallerUID, headers=headersCompany)
-#
-#     resComp = connComp.getresponse()
-#     dataComp = resComp.read()
-#     data_raw = str(dataComp.decode('utf-8'))
-#     data_dict = ast.literal_eval(data_raw)
-#
-#     dataRender = json.dumps(data_dict, indent=2)
-#     d_org = json.loads(dataRender)
-#
-#     for index_org in range(len(d_org["users"])):
-#         firstName = d_org["users"][index_org]["firstName"]
-#         lastName = d_org["users"][index_org]["lastName"]
-#         displayName = d_org["users"][index_org]["displayName"]
-#         companyName = d_org["users"][index_org]["company"]
-#         userID = str(d_org["users"][index_org]["id"])
-#
-#         botlog.LogSymphonyInfo(firstName + " " + lastName + " from Company/Pod name: " + str(companyName) + " with UID: " + str(userID))
-#         callerCheck = (firstName + " " + lastName + " - " + displayName + " - " + companyName + " - " + str(userID))
-#
-#     if callerCheck in (_configZen['AuthUser']['AdminList']):
-#
-#         messageDetail.ReplyToChat("Please look for a file picker popup to select your excel file to be processed. It could be behind another application")
-#
-#         try:
-#             Tk().withdraw()
-#             filename = askopenfilename()
-#             df = pandas.read_excel(filename)
-#
-#         except:
-#             return messageDetail.ReplyToChat("The file is not valid, please select an excel file with file extension .xlsx or .xls ")
-#
-#         #print the column names
-#         #print(df.columns)
-#         #get the values for a given column
-#
-#         try:
-#             values = df['userId'].values
-#         except:
-#             return messageDetail.ReplyToChatV2("Make sure the column header is <b>userId</b>")
-#
-#         values = str(values).replace("\n", "")
-#         #print(values)
-#         order = str(values).split(" ")
-#         #print(order)
-#         #get a data frame with selected columns
-#         # FORMAT = ['First', 'Second', 'Third']
-#         # df_selected = df[FORMAT]
-#
-#         invalidUserID = ""
-#         validUserID = ""
-#
-#         messageDetail.ReplyToChat("Please wait while I process this request")
-#
-#         for index in range(len(order)):
-#
-#             desc = order[index]
-#             userid = desc.replace("[", "").replace("]", "")
-#             #print(userid)
-#
-#             conn = http.client.HTTPSConnection(_configDef['symphonyinfo']['pod_hostname'])
-#
-#             payload = "{\n\t\"status\": \"DISABLED\"\n}"
-#             headers = {
-#                 'sessiontoken': callout.GetSessionToken(),
-#                 'content-type': "application/json",
-#                 'cache-control': "no-cache",
-#             }
-#             conn.request("POST", "/pod/v1/admin/user/" + userid + "/status/update", payload, headers)
-#
-#             res = conn.getresponse()
-#             data = res.read()
-#
-#             useridCheck = data.decode("utf-8")
-#             #print(useridCheck)
-#
-#             #This is to check that correct Pod is used in the config file and handle the error.
-#             incorrectPod = "{\"message\":\"Invalid session token\"}"
-#             deactivated = "{\"format\":\"TEXT\",\"message\":\"OK\"}"
-#
-#             if useridCheck == incorrectPod:
-#                 return messageDetail.ReplyToChat("Please make sure you have set the correct Pod url info in the Config file.")
-#
-#             elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
-#                 invalidUserID += userid + ", "
-#
-#             elif useridCheck == deactivated:
-#                 validUserID += userid + ", "
-#
-#         if useridCheck == deactivated:
-#             return messageDetail.ReplyToChatV2("<p>User(s) have been de-activated:</p><p>" + validUserID + "</p>")
-#
-#         elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
-#             return messageDetail.ReplyToChatV2("<p>The following UserID(s), do(es) not exist, please check if it's from the correct Pod or missing a digit:</p><p>" + invalidUserID + "</p>")
-#
-#         else:
-#             return messageDetail.ReplyToChat("Something did not work, the Pod URL is valid and Userid is valid. Please check the excel file itself")
-#
-#     else:
-#         return messageDetail.ReplyToChat("You aren't authorised to use this command. Please contact Alex Nalin for access")
-#
-#
-# def reactivateUser(messageDetail):
-#
-#     commandCallerUID = messageDetail.FromUserId
-#
-#     connComp = http.client.HTTPSConnection(_configDef['symphonyinfo']['pod_hostname'])
-#     sessionTok = callout.GetSessionToken()
-#
-#     headersCompany = {
-#         'sessiontoken': sessionTok,
-#         'cache-control': "no-cache"
-#     }
-#
-#     connComp.request("GET", "/pod/v3/users?uid=" + commandCallerUID, headers=headersCompany)
-#
-#     resComp = connComp.getresponse()
-#     dataComp = resComp.read()
-#     data_raw = str(dataComp.decode('utf-8'))
-#     data_dict = ast.literal_eval(data_raw)
-#
-#     dataRender = json.dumps(data_dict, indent=2)
-#     d_org = json.loads(dataRender)
-#
-#     for index_org in range(len(d_org["users"])):
-#         firstName = d_org["users"][index_org]["firstName"]
-#         lastName = d_org["users"][index_org]["lastName"]
-#         displayName = d_org["users"][index_org]["displayName"]
-#         companyName = d_org["users"][index_org]["company"]
-#         userID = str(d_org["users"][index_org]["id"])
-#
-#         botlog.LogSymphonyInfo(firstName + " " + lastName + " from Company/Pod name: " + str(companyName) + " with UID: " + str(userID))
-#         callerCheck = (firstName + " " + lastName + " - " + displayName + " - " + companyName + " - " + str(userID))
-#
-#     if callerCheck in (_configZen['AuthUser']['AdminList']):
-#
-#         messageDetail.ReplyToChat("Please look for a file picker popup to select your excel file to be processed. It could be behind another application")
-#
-#         try:
-#             Tk().withdraw()
-#             filename = askopenfilename()
-#             df = pandas.read_excel(filename)
-#
-#         except:
-#             return messageDetail.ReplyToChat("The file is not valid, please select an excel file with file extension .xlsx or .xls ")
-#
-#         #print the column names
-#         #print(df.columns)
-#         #get the values for a given column
-#
-#         try:
-#             values = df['userId'].values
-#         except:
-#             return messageDetail.ReplyToChatV2("Make sure the column header is <b>userId</b>")
-#
-#         values = str(values).replace("\n", "")
-#         #print(values)
-#         order = str(values).split(" ")
-#         #print(order)
-#         #get a data frame with selected columns
-#         # FORMAT = ['First', 'Second', 'Third']
-#         # df_selected = df[FORMAT]
-#
-#         invalidUserID = ""
-#         validUserID = ""
-#
-#         messageDetail.ReplyToChat("Please wait while I process this request")
-#
-#         for index in range(len(order)):
-#
-#             desc = order[index]
-#             userid = desc.replace("[", "").replace("]", "")
-#             #print(userid)
-#
-#             conn = http.client.HTTPSConnection(_configDef['symphonyinfo']['pod_hostname'])
-#
-#             payload = "{\n\t\"status\": \"ENABLED\"\n}"
-#             headers = {
-#                 'sessiontoken': callout.GetSessionToken(),
-#                 'content-type': "application/json",
-#                 'cache-control': "no-cache",
-#             }
-#             conn.request("POST", "/pod/v1/admin/user/" + userid + "/status/update", payload, headers)
-#
-#             res = conn.getresponse()
-#             data = res.read()
-#
-#             useridCheck = data.decode("utf-8")
-#             #print(useridCheck)
-#
-#             #This is to check that correct Pod is used in the config file and handle the error.
-#             incorrectPod = "{\"message\":\"Invalid session token\"}"
-#             reactivated = "{\"format\":\"TEXT\",\"message\":\"OK\"}"
-#
-#             if useridCheck == incorrectPod:
-#                 return messageDetail.ReplyToChat("Please make sure you have set the correct Pod url info in the Config file.")
-#
-#             elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
-#                 invalidUserID += userid + ", "
-#
-#             elif useridCheck == reactivated:
-#                 validUserID += userid + ", "
-#
-#         if useridCheck == reactivated:
-#             return messageDetail.ReplyToChatV2("<p>User(s) have been re-activated:</p><p>" + validUserID + "</p>")
-#
-#         elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
-#             return messageDetail.ReplyToChatV2("<p>The following UserID(s), do(es) not exist, please check if it's from the correct Pod or missing a digit:</p><p>" + invalidUserID + "</p>")
-#
-#         else:
-#             return messageDetail.ReplyToChat("Something did not work, the Pod URL is valid and Userid is valid. Please check the excel file itself")
-#
-#     else:
-#         return messageDetail.ReplyToChat("You aren't authorised to use this command. Please contact Alex Nalin for access")
+def deactivateUser(messageDetail):
+
+    commandCallerUID = messageDetail.FromUserId
+
+    connComp = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
+    sessionTok = callout.GetSessionToken()
+
+    headersCompany = {
+        'sessiontoken': sessionTok,
+        'cache-control': "no-cache"
+    }
+
+    connComp.request("GET", "/pod/v3/users?uid=" + commandCallerUID, headers=headersCompany)
+
+    resComp = connComp.getresponse()
+    dataComp = resComp.read()
+    data_raw = str(dataComp.decode('utf-8'))
+    data_dict = ast.literal_eval(data_raw)
+
+    dataRender = json.dumps(data_dict, indent=2)
+    d_org = json.loads(dataRender)
+
+    for index_org in range(len(d_org["users"])):
+        firstName = d_org["users"][index_org]["firstName"]
+        lastName = d_org["users"][index_org]["lastName"]
+        displayName = d_org["users"][index_org]["displayName"]
+        companyName = d_org["users"][index_org]["company"]
+        userID = str(d_org["users"][index_org]["id"])
+
+        botlog.LogSymphonyInfo(firstName + " " + lastName + " from Company/Pod name: " + str(companyName) + " with UID: " + str(userID))
+        callerCheck = (firstName + " " + lastName + " - " + displayName + " - " + companyName + " - " + str(userID))
+
+    if callerCheck in (_configMain['AuthUser']['AdminList']):
+
+        messageDetail.ReplyToChat("Please look for a file picker popup to select your excel file to be processed. It could be behind another application")
+
+        try:
+            Tk().withdraw()
+            filename = askopenfilename()
+            df = pandas.read_excel(filename)
+
+        except:
+            return messageDetail.ReplyToChat("The file is not valid, please select an excel file with file extension .xlsx or .xls ")
+
+        #print the column names
+        #print(df.columns)
+        #get the values for a given column
+
+        try:
+            values = df['deactivate'].values
+        except:
+            return messageDetail.ReplyToChatV2("Make sure the column header is <b>deactivate</b>")
+
+        values = str(values).replace("\n", "")
+        #print(values)
+        order = str(values).split(" ")
+        #print(order)
+        #get a data frame with selected columns
+        # FORMAT = ['First', 'Second', 'Third']
+        # df_selected = df[FORMAT]
+
+        invalidUserID = ""
+        validUserID = ""
+
+        messageDetail.ReplyToChat("Please wait while I process this request")
+
+        for index in range(len(order)):
+
+            desc = order[index]
+            deactivate = desc.replace("[", "").replace("]", "").replace("'","")
+            #print(deactivate)
+
+            #####################
+
+            connComp = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
+            sessionTok = callout.GetSessionToken()
+
+            headersCompany = {
+                'sessiontoken': sessionTok,
+                'cache-control': "no-cache"
+            }
+
+            connComp.request("GET", "/pod/v3/users?email=" + deactivate, headers=headersCompany)
+
+            resComp = connComp.getresponse()
+            dataComp = resComp.read()
+            data_raw = str(dataComp.decode('utf-8'))
+            data_dict = ast.literal_eval(data_raw)
+
+            dataRender = json.dumps(data_dict, indent=2)
+            d_org = json.loads(dataRender)
+            #print(str(d_org))
+
+            for index_org in range(len(d_org["users"])):
+                userID = str(d_org["users"][index_org]["id"])
+                #print(userID)
+
+            #####################
+
+                conn = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
+
+                payload = "{\n\t\"status\": \"DISABLED\"\n}"
+                headers = {
+                    'sessiontoken': callout.GetSessionToken(),
+                    'content-type': "application/json",
+                    'cache-control': "no-cache",
+                }
+                conn.request("POST", "/pod/v1/admin/user/" + userID + "/status/update", payload, headers)
+
+                res = conn.getresponse()
+                data = res.read()
+
+                useridCheck = data.decode("utf-8")
+                #print(useridCheck)
+
+                #This is to check that correct Pod is used in the config file and handle the error.
+                incorrectPod = "{\"message\":\"Invalid session token\"}"
+                deactivated = "{\"format\":\"TEXT\",\"message\":\"OK\"}"
+
+                if useridCheck == incorrectPod:
+                    return messageDetail.ReplyToChat("Please make sure you have set the correct Pod url info in the Config file.")
+
+                elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
+                    invalidUserID += userID + " (" + str(deactivate) +") <br/>"
+
+                elif useridCheck == deactivated:
+                    validUserID += userID + " (" + str(deactivate) +") <br/>"
+
+        if useridCheck == deactivated:
+            return messageDetail.ReplyToChatV2_noBotLog("<card iconSrc =\"https://thumb.ibb.co/csXBgU/Symphony2018_App_Icon_Mobile.png\" accent=\"tempo-bg-color--blue\"><header>User(s) have been de-activated:</header><body>" + validUserID + "</body></card>")
+            #return messageDetail.ReplyToChatV2("<p>User(s) have been de-activated:</p><p>" + validUserID + "</p>")
+
+        elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
+            return messageDetail.ReplyToChatV2_noBotLog("<card iconSrc =\"https://thumb.ibb.co/csXBgU/Symphony2018_App_Icon_Mobile.png\" accent=\"tempo-bg-color--blue\"><header>The following UserID(s), do(es) not exist, please check if it's from the correct Pod or missing a digit:</header><body>" + invalidUserID + "</body></card>")
+            #return messageDetail.ReplyToChatV2("<p>The following UserID(s), do(es) not exist, please check if it's from the correct Pod or missing a digit:</p><p>" + invalidUserID + "</p>")
+
+        else:
+            return messageDetail.ReplyToChat("Something did not work, the Pod URL is valid and Userid is valid. Please check the excel file itself")
+
+    else:
+        return messageDetail.ReplyToChat("You aren't authorised to use this command. Please contact Alex Nalin for access")
+
+
+def reactivateUser(messageDetail):
+
+    commandCallerUID = messageDetail.FromUserId
+
+    connComp = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
+    sessionTok = callout.GetSessionToken()
+
+    headersCompany = {
+        'sessiontoken': sessionTok,
+        'cache-control': "no-cache"
+    }
+
+    connComp.request("GET", "/pod/v3/users?uid=" + commandCallerUID, headers=headersCompany)
+
+    resComp = connComp.getresponse()
+    dataComp = resComp.read()
+    data_raw = str(dataComp.decode('utf-8'))
+    data_dict = ast.literal_eval(data_raw)
+
+    dataRender = json.dumps(data_dict, indent=2)
+    d_org = json.loads(dataRender)
+
+    for index_org in range(len(d_org["users"])):
+        firstName = d_org["users"][index_org]["firstName"]
+        lastName = d_org["users"][index_org]["lastName"]
+        displayName = d_org["users"][index_org]["displayName"]
+        companyName = d_org["users"][index_org]["company"]
+        userID = str(d_org["users"][index_org]["id"])
+
+        botlog.LogSymphonyInfo(firstName + " " + lastName + " from Company/Pod name: " + str(companyName) + " with UID: " + str(userID))
+        callerCheck = (firstName + " " + lastName + " - " + displayName + " - " + companyName + " - " + str(userID))
+
+    if callerCheck in (_configMain['AuthUser']['AdminList']):
+
+        messageDetail.ReplyToChat("Please look for a file picker popup to select your excel file to be processed. It could be behind another application")
+
+        try:
+            Tk().withdraw()
+            filename = askopenfilename()
+            df = pandas.read_excel(filename)
+
+        except:
+            return messageDetail.ReplyToChat("The file is not valid, please select an excel file with file extension .xlsx or .xls ")
+
+        #print the column names
+        #print(df.columns)
+        #get the values for a given column
+
+        try:
+            values = df['userId'].values
+        except:
+            return messageDetail.ReplyToChatV2("Make sure the column header is <b>userId</b>")
+
+        values = str(values).replace("\n", "")
+        #print(values)
+        order = str(values).split(" ")
+        #print(order)
+        #get a data frame with selected columns
+        # FORMAT = ['First', 'Second', 'Third']
+        # df_selected = df[FORMAT]
+
+        invalidUserID = ""
+        validUserID = ""
+
+        messageDetail.ReplyToChat("Please wait while I process this request")
+
+        for index in range(len(order)):
+
+            desc = order[index]
+            userid = desc.replace("[", "").replace("]", "")
+            #print(userid)
+
+            conn = http.client.HTTPSConnection(_configMain['symphonyinfo']['pod_hostname'])
+
+            payload = "{\n\t\"status\": \"ENABLED\"\n}"
+            headers = {
+                'sessiontoken': callout.GetSessionToken(),
+                'content-type': "application/json",
+                'cache-control': "no-cache",
+            }
+            conn.request("POST", "/pod/v1/admin/user/" + userid + "/status/update", payload, headers)
+
+            res = conn.getresponse()
+            data = res.read()
+
+            useridCheck = data.decode("utf-8")
+            #print(useridCheck)
+
+            #This is to check that correct Pod is used in the config file and handle the error.
+            incorrectPod = "{\"message\":\"Invalid session token\"}"
+            reactivated = "{\"format\":\"TEXT\",\"message\":\"OK\"}"
+
+            if useridCheck == incorrectPod:
+                return messageDetail.ReplyToChat("Please make sure you have set the correct Pod url info in the Config file.")
+
+            elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
+                invalidUserID += userid + ", "
+
+            elif useridCheck == reactivated:
+                validUserID += userid + ", "
+
+        if useridCheck == reactivated:
+            return messageDetail.ReplyToChatV2("<p>User(s) have been re-activated:</p><p>" + validUserID + "</p>")
+
+        elif useridCheck.startswith("{\"code\":400,\"message\":\"Invalid user"):
+            return messageDetail.ReplyToChatV2("<p>The following UserID(s), do(es) not exist, please check if it's from the correct Pod or missing a digit:</p><p>" + invalidUserID + "</p>")
+
+        else:
+            return messageDetail.ReplyToChat("Something did not work, the Pod URL is valid and Userid is valid. Please check the excel file itself")
+
+    else:
+        return messageDetail.ReplyToChat("You aren't authorised to use this command. Please contact Alex Nalin for access")
 
 
 # def createRoomAddUser(messageDetail):
